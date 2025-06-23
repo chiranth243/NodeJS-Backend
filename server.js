@@ -25,7 +25,6 @@ const io = socketIo(server, {
 });
 
 app.set('io', io);
-
-server.listen(5000, () => {
-  console.log('Server running on port 5000');
-});
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
+})
