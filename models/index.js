@@ -28,7 +28,7 @@ fs
     const modelFactory = require(modelPath);
 
     if (typeof modelFactory !== 'function') {
-      console.error(`❌ Model file "${file}" does not export a function`);
+      console.error(`Model file "${file}" does not export a function`);
       return;
     }
 

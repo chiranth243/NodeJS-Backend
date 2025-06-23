@@ -1,6 +1,5 @@
 const db = require('../models');
 
-// GET all assets
 exports.getAllAssets = async (req, res) => {
   try {
     const assets = await db.Asset.findAll();
@@ -11,7 +10,6 @@ exports.getAllAssets = async (req, res) => {
   }
 };
 
-// POST a new asset (optional, for admin use)
 exports.createAsset = async (req, res) => {
   const { name, symbol, type, price } = req.body;
 

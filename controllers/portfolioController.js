@@ -17,7 +17,6 @@ exports.getUserPortfolio = async (req, res) => {
       const asset = item.Asset;
       const redisKey = `asset:${asset.id}:price`;
 
-      // Get latest price from Redis (fallback to 100 if not found)
       let price = await redisClient.get(redisKey);
       price = price ? parseFloat(price) : 100;
 
@@ -25,11 +24,13 @@ exports.getUserPortfolio = async (req, res) => {
       totalValue += value;
 
       result.push({
+        id: asset.id,
         assetName: asset.name,
         assetType: asset.type,
         quantity: item.quantity,
         price,
-        value: value.toFixed(2)
+        value: value.toFixed(2),
+        date: asset.createdAt
       });
     }
 

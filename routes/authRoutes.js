@@ -13,15 +13,12 @@ router.post('/signup', async (req, res) => {
     return res.status(400).json({ message: 'Missing fields' });
 
   try {
-    /* check if user already exists */
     const existing = await db.User.findOne({ where: { email } });
     if (existing)
       return res.status(409).json({ message: 'Email already registered' });
 
-    /* ➕ create the user (PLAIN-TEXT password) */
     const user = await db.User.create({ name, email, password });
 
-    /* issue token */
     const token = jwt.sign(
       { id: user.id, email: user.email, name: user.name },
       process.env.JWT_SECRET || 'your_jwt_secret',
@@ -57,7 +54,6 @@ router.post('/login', async (req, res) => {
         name: user.name,
       },
       process.env.JWT_SECRET || 'f68e0c1fadc87a1c6820fd9e1b0ff7de7f7a23c9b4a9923c50c3d03813f7cf24',
-      { expiresIn: '2h' }
     );
 
     res.json({ token, user: { id: user.id, email: user.email, name: user.name } });

@@ -1,7 +1,8 @@
 const db = require('../models');
 
 exports.createOrUpdatePortfolio = async (req, res) => {
-  const { user_id, asset_id, quantity } = req.body;
+  const user_id = req.user.id; // Use ID from JWT
+  const { asset_id, quantity } = req.body;
 
   if (!user_id || !asset_id || quantity == null) {
     return res.status(400).json({ message: 'Missing fields' });
@@ -20,7 +21,6 @@ exports.createOrUpdatePortfolio = async (req, res) => {
     });
 
     if (portfolio) {
-      // 🔁 Add to existing quantity
       const newQuantity = parseFloat(portfolio.quantity) + parseFloat(quantity);
       const newValue = newQuantity * asset.price;
 
@@ -28,7 +28,6 @@ exports.createOrUpdatePortfolio = async (req, res) => {
       portfolio.value = newValue;
       await portfolio.save();
     } else {
-      // Create new portfolio entry
       portfolio = await db.Portfolio.create({
         user_id,
         asset_id,
@@ -36,6 +35,9 @@ exports.createOrUpdatePortfolio = async (req, res) => {
         value: quantity * asset.price
       });
     }
+
+    const io = require('../app').get('io');
+    io.emit('portfolioUpdate');
 
     res.status(200).json({ message: 'Portfolio updated', portfolio });
 

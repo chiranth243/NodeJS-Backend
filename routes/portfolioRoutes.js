@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { getUserPortfolio } = require('../controllers/portfolioController');
-const { createOrUpdatePortfolio } = require('../controllers/portfolioCreateController');
+const auth = require('../middleware/auth');
+const portfolioController = require('../controllers/portfolioController');
+const portfolioCreateController = require('../controllers/portfolioCreateController');
 
-router.get('/:userId', getUserPortfolio);
-router.post('/create', createOrUpdatePortfolio);
+// Protect these routes with JWT auth
+router.get('/:userId', auth, portfolioController.getUserPortfolio);
+router.post('/create', auth, portfolioCreateController.createOrUpdatePortfolio);
 
 module.exports = router;
 

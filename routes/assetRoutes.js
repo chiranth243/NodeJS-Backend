@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
 const assetController = require('../controllers/AssetController');
 
-router.get('/', assetController.getAllAssets);           // GET /api/assets
-router.post('/', assetController.createAsset);           // POST /api/assets
-router.get('/:id', assetController.getAssetById);        // GET /api/assets/:id
+router.get('/', auth, assetController.getAllAssets);           
+router.post('/', auth, assetController.createAsset);       
+router.get('/:id', auth, assetController.getAssetById);  
 
 module.exports = router;

@@ -8,14 +8,14 @@ module.exports = {
     const timestamp = new Date();
 
     for (let userId = 1; userId <= totalUsers; userId++) {
-      const numberOfAssets = Math.floor(Math.random() * 4) + 1; // 1 to 4 assets per user
+      const numberOfAssets = Math.floor(Math.random() * 4) + 1; 
       const usedAssetIds = new Set();
 
       for (let i = 0; i < numberOfAssets; i++) {
         let assetId;
 
         do {
-          assetId = Math.floor(Math.random() * totalAssets) + 1; // asset ID between 1–20
+          assetId = Math.floor(Math.random() * totalAssets) + 1;
         } while (usedAssetIds.has(assetId));
 
         usedAssetIds.add(assetId);

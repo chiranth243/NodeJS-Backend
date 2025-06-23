@@ -1,7 +1,6 @@
 const cron = require('node-cron');
 const db = require('../models');
 
-// 👇 Simulate getting prices from external source
 const mockPrices = () => {
     const symbols = [
         'AAPL', 'GOOG', 'MSFT', 'TSLA', 'META', 'AMZN',
@@ -13,20 +12,17 @@ const mockPrices = () => {
     const prices = {};
 
     symbols.forEach(symbol => {
-        const basePrice = 100 + Math.random() * 900; // random base between 100–1000
+        const basePrice = 100 + Math.random() * 900;
 
-        const trend = Math.random(); // 0 to 1
+        const trend = Math.random(); 
 
         let change = 0;
 
         if (trend < 0.33) {
-            // price goes down by 0–5%
             change = -basePrice * (Math.random() * 0.05);
         } else if (trend < 0.66) {
-            // price stays mostly the same (±1%)
             change = basePrice * (Math.random() * 0.02 - 0.01);
         } else {
-            // price goes up by 0–5%
             change = basePrice * (Math.random() * 0.05);
         }
 
@@ -44,7 +40,6 @@ const updateAssetPricesAndPortfolios = async () => {
         const prices = mockPrices();
         const assets = await db.Asset.findAll();
 
-        // Update each asset with new price
         for (const asset of assets) {
             if (prices[asset.symbol]) {
                 asset.price = prices[asset.symbol];
@@ -52,7 +47,6 @@ const updateAssetPricesAndPortfolios = async () => {
             }
         }
 
-        // Recalculate portfolios
         const portfolios = await db.Portfolio.findAll({
             include: db.Asset
         });
@@ -71,7 +65,6 @@ const updateAssetPricesAndPortfolios = async () => {
     }
 };
 
-// Schedule: every 10 minutes
 cron.schedule('*/10 * * * *', updateAssetPricesAndPortfolios);
 
 module.exports = updateAssetPricesAndPortfolios;
