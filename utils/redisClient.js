@@ -5,9 +5,14 @@ dotenv.config();
 const redisClient = redis.createClient({
   socket: {
     host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT
-  }
+    port: parseInt(process.env.REDIS_PORT),
+  },
+  password: process.env.REDIS_PASSWORD,
 });
+
+// const redisClient = redis.createClient({
+//   url: process.env.REDIS_URL, 
+// });
 
 redisClient.connect()
   .then(() => console.log('Redis connected'))
