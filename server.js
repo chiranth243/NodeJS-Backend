@@ -1,5 +1,5 @@
 const app = require("./app");
-const PORT = process.env.DB_PORT || 47435;
+const port = process.env.DB_PORT || 47435;
 
 const redisClient = require('./utils/redisClient');
 
@@ -25,6 +25,6 @@ const io = socketIo(server, {
 });
 
 app.set('io', io);
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
 })
