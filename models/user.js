@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true
     },
     password: DataTypes.STRING
-  }, {});
+  }, {tableName: "users"});
 
   User.associate = (models) => {
     User.hasMany(models.Portfolio, {

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     user_id: DataTypes.INTEGER,
     asset_id: DataTypes.INTEGER,
     quantity: DataTypes.DECIMAL(10, 2)
-  }, {});
+  }, {tableName: 'portfolios'});
 
   Portfolio.associate = (models) => {
     Portfolio.belongsTo(models.User, {

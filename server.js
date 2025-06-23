@@ -1,5 +1,5 @@
 const app = require("./app");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.DB_PORT || 47435;
 
 const redisClient = require('./utils/redisClient');
 
@@ -19,7 +19,7 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: '*',
+    origin: 'https://stock-portfolio-frontend-zxb0.onrender.com/',
     methods: ['GET', 'POST']
   }
 });
